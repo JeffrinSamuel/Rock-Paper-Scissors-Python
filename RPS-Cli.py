@@ -1,19 +1,22 @@
-import random
+import random, os
+
 
 def getAndValidateInput():
-    validInput = False    
+    validInput = False
     while not validInput:
         userInput = str(input("\tEnter your sign (R/P/S) "))
-        if userInput in ['R','P','S','r','p','s']:
+        if userInput in ['R', 'P', 'S', 'r', 'p', 's']:
             validInput = True
         else:
             print("\n\tInvalid Input \n\tPlease enter R/P/S\n")
     return userInput
 
+
 def randomGenerator():
-    randValue = str(random.randint(1,3))
-    wrapper = {'1': 'R', '2':'P', '3':'S'}
+    randValue = str(random.randint(1, 3))
+    wrapper = {'1': 'R', '2': 'P', '3': 'S'}
     return wrapper.get(randValue)
+
 
 def run(totalScore):
     computerScore = 0
@@ -24,22 +27,26 @@ def run(totalScore):
         computerInput = randomGenerator()
         pointFor = logic(userInput.upper(), computerInput)
         if pointFor == 'user':
-            userScore+=1
+            userScore += 1
         elif pointFor == 'computer':
-            computerScore+=1
+            computerScore += 1
         else:
-            tied+=1
-        if userScore>=totalScore or computerScore>=totalScore:
-            verdict = '\t  You lose' if computerScore>userScore else '   Congratulations\n\t\t   You win'
-            print(f"\n\t\t GAME OVER \n\t    {verdict}\n\n\t User Score is {userScore}\n\t Computer Score is {computerScore}\n\t Total Tied: {tied}")
+            tied += 1
+        if userScore >= totalScore or computerScore >= totalScore:
+            verdict = '\N{worried face} \N{worried face} You lose \N{worried face} \N{worried face}' if computerScore > userScore else '  Congratulations\n\t    \N{grinning face with smiling eyes} \N{grinning face with smiling eyes} You win \N{grinning face with smiling eyes} \N{grinning face with smiling eyes}'
+            print(
+                f"\n\t\t GAME OVER \n\t    {verdict}\n\n\t Your Score is {userScore}\n\t Computer Score is {computerScore}\n\t Total Ties: {tied}"
+            )
             play_again = input("Play again? (y/n) ")
             if play_again.lower() != 'y':
                 break
             else:
-                totalScore=getMaxPoints()
+                os.system('clear')
+                totalScore = getMaxPoints()
                 computerScore = 0
                 userScore = 0
                 tied = 0
+
 
 def getMaxPoints():
     validInput = False
@@ -52,6 +59,7 @@ def getMaxPoints():
         else:
             validInput = True
     return int(totalScore)
+
 
 def logic(userInput, computerInput):
     if userInput == 'R' and computerInput == 'S':
@@ -70,6 +78,6 @@ def logic(userInput, computerInput):
         print("\tTied ")
         return 'tied'
 
-if __name__=="__main__":
-    run(getMaxPoints())
 
+if __name__ == "__main__":
+    run(getMaxPoints())
